@@ -22,6 +22,9 @@ function checkInternetConnection {
 
     fi
 }
+
+loadkeys ru
+
 #
 ## Select part.
 #
@@ -33,10 +36,6 @@ function inputVarPartition {
     sudo cfdisk /dev/$varPart
 }
 
-checkInternetConnection
-inputVarPartition
-
-#loadkeys ru
 
 function formattingPartition {
     echo format /efi part
@@ -50,4 +49,17 @@ function formattingPartition {
 
 }
 
+function mountPart {
+
+    echo "mount all part in dir"
+
+    mount /dev/$varPart"2" /mnt
+    
+    mkdir /mnt/home
+
+    mount /dev/$varPart"3" /mnt/home
+}
+
+checkInternetConnection
+inputVarPartition
 formattingPartition
