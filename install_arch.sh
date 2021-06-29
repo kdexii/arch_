@@ -63,3 +63,4 @@ function mountPart {
 checkInternetConnection
 inputVarPartition
 formattingPartition
+mountPart
