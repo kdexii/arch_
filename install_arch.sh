@@ -22,9 +22,9 @@ function checkInternetConnection {
 
     fi
 }
-# Select part.
-checkInternetConnection
-
+#
+## Select part.
+#
 function inputVarPartition {
     echo "Input varriable sda/sdc/sdb:"
 
@@ -33,8 +33,21 @@ function inputVarPartition {
     sudo cfdisk /dev/$varPart
 }
 
+checkInternetConnection
 inputVarPartition
 
 #loadkeys ru
 
+function formattingPartition {
+    echo format /efi part
+    mkfs.fat -F32 /dev/$varPart"1"
 
+    echo format /root part
+    mkfs.ext4 /dev/$varPart"2"
+
+    echo format /home part
+    mkfs.ext4 /dev/$varPart"3"
+
+}
+
+formattingPartition
