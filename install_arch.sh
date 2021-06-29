@@ -49,7 +49,7 @@ function formattingPartition {
 
 }
 
-function mountPart {
+function mountPartAndInstallBaseLinux {
 
     echo "mount all part in dir"
 
@@ -58,9 +58,13 @@ function mountPart {
     mkdir /mnt/home
 
     mount /dev/$varPart"3" /mnt/home
+
+    pacstrap -i /mnt base linux linux-firmware sudo vim networkmanager
+
+    genfstab -U -p /mnt >> /mnt/etc/fstab
 }
 
 checkInternetConnection
 inputVarPartition
 formattingPartition
-mountPart
+mountPartAndInstallBaseLinux
