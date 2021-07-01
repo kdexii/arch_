@@ -28,6 +28,7 @@ function chrootSystem {
 
 function grubInstall {
     
+    echo "Print new password for root:"
     passwd
 
     pacman -S grub efibootmgr
