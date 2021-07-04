@@ -26,10 +26,11 @@ function inputVarPartition() {
     read varPart
     if [[ $varPart =~ ^{sd,SD}{A-Z,a-z} ]]; then 
         formattingPartition()
-    elif [[ -z $varPart ]]; then
+    elif [[ !-z $varPart ]]; then
         sudo cfdisk /dev/$varPart
     else 
         echo 'You wrote invalid disk name. Please repeat!\n'
+    fi
 }
 
 function formattingPartition() {
