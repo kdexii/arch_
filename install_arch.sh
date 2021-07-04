@@ -24,7 +24,7 @@ function inputVarPartition() {
     lsblk
     echo "Input disk to make partition automaticly. Press 'Enter' to make partition manually:\n"
     read varPart
-    if [[ $varPart | awk '{sd,SD}{A-Z,a-z}' ]]; then 
+    if [[ $varPart =~ ^{sd,SD}{A-Z,a-z} ]]; then 
         formattingPartition()
     elif [[ -z $varPart ]]; then
         sudo cfdisk /dev/$varPart
