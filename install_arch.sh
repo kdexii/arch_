@@ -26,7 +26,7 @@ function inputVarPartition() {
     read varPart
     if [$varPart | awk '{sd,SD}{A-Z,a-z}']; then 
         formattingPartition()
-    elif [$varPart == null]; then
+    else if [$varPart == null]; then
         sudo cfdisk /dev/$varPart
     else 
         echo 'You wrote invalid disk name. Please repeat!\n'
