@@ -1,16 +1,8 @@
 #!/bin/bash
 
-#wget -q --spider http://google.com
+function checkInternetConnection() {
 
-#if [ $? -eq 0 ]; then
-#	echo "ping ok..."
-#else
-#	echo "ping not ok..."
-#fi
-
-function checkInternetConnection {
-
-    echo "check internet connection"
+    echo "/t Checking internet connection"
 
     if ping -c 2 8.8.8.8 >/dev/null; then
 
@@ -21,23 +13,26 @@ function checkInternetConnection {
     echo "ping not ok"
 
     fi
-}
+r
 
 loadkeys ru
 
 #
 ## Select part.
 #
-function inputVarPartition {
-    echo "Input varriable sda/sdc/sdb:"
-
+function inputVarPartition() {
+    lsblk
+    echo "Input disk to make partition automaticly. Press 'Enter' to make partition manually:\n"
     read varPart
-
-    sudo cfdisk /dev/$varPart
+    if [[$varPart | awk '{sd,SD}{A-Z,a-z}']; then 
+        formattingPartition()
+    elif [[$varPart == null]]; then
+        sudo cfdisk /dev/$varPart
+    else 
+        echo 'You wrote invalid disk name. Please repeat!\n'
 }
 
-
-function formattingPartition {
+function formattingPartition() {
     echo format /efi part
     mkfs.fat -F32 /dev/$varPart"1"
 
@@ -49,9 +44,8 @@ function formattingPartition {
 
 }
 
-function mountPartAndInstallBaseLinux {
-
-    echo "mount all part in dir"
+function mountPartAndInstallBaseLinux() {
+    echo "Mounting disk partitions..."
 
     mount /dev/$varPart"2" /mnt
     
@@ -64,7 +58,7 @@ function mountPartAndInstallBaseLinux {
     genfstab -U -p /mnt >> /mnt/etc/fstab
 }
 
-function chrootSystem {
+function chrootSystem() {
 
     arch-chroot /mnt /bin/bash
     
@@ -92,7 +86,7 @@ function chrootSystem {
 
 }
 
-function grubInstall {
+function grubInstall() {
     
     passwd
 
@@ -109,7 +103,6 @@ function grubInstall {
 
 checkInternetConnection
 inputVarPartition
-formattingPartition
 mountPartAndInstallBaseLinux
 chrootSystem
 grubInstall
