@@ -24,9 +24,9 @@ function inputVarPartition() {
     lsblk
     echo "Input disk to make partition automaticly. Press 'Enter' to make partition manually:\n"
     read varPart
-    if [[$varPart | awk '{sd,SD}{A-Z,a-z}']; then 
+    if [$varPart | awk '{sd,SD}{A-Z,a-z}']; then 
         formattingPartition()
-    elif [[$varPart == null]]; then
+    elif [$varPart == null]; then
         sudo cfdisk /dev/$varPart
     else 
         echo 'You wrote invalid disk name. Please repeat!\n'
